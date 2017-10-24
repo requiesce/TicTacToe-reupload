@@ -2,16 +2,12 @@ package com.example.x.tictactoe;
 
 import android.content.DialogInterface;
 import android.media.MediaPlayer;
-import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class GameActivity extends AppCompatActivity {
     char player = 'X'; // game initialises with player X
@@ -257,15 +253,6 @@ public class GameActivity extends AppCompatActivity {
 
     // shows message on win
     private void winMessage(char winner) {
-        /*AlertDialog.Builder winnerAlert = new AlertDialog.Builder(this);
-        winnerAlert.setMessage("Player " + winner + " wins!");
-        AlertDialog alert = winnerAlert.create();
-        alert.show();*/
-
-        /*Toast toast = Toast.makeText(this, "Player " + winner + " wins!", Toast.LENGTH_LONG);
-        toast.show();
-        disableButtons();*/
-
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Player " + winner + " wins!");
         builder.setCancelable(true);
@@ -278,19 +265,6 @@ public class GameActivity extends AppCompatActivity {
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
-
-
-
-        /* final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // delay following action by 5 seconds
-                finish();
-            }
-        }, 5000); */
-
-
     }
 
     // shows message on draw
