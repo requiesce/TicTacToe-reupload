@@ -47,7 +47,7 @@ public class SettingsActivity extends AppCompatActivity {
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.settings_screen);
-            SwitchPreference switchPreference = (SwitchPreference) findPreference("switchSound");
+            final SwitchPreference switchPreference = (SwitchPreference) findPreference("switchSound");
             switchPreference.setEnabled(true); // enables switch to be changed
 
             //switchPreference.setSwitchTextOn("MUTE");
@@ -57,37 +57,57 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
 
-                boolean isOn = (boolean) newValue;
+                AudioManager audioManager=(AudioManager)getContext().getSystemService(Context.AUDIO_SERVICE);
+                //boolean isOn = (boolean) newValue;
+                boolean isOn;
+                if (switchPreference.isEnabled()) {
+                    isOn = true;
+                }
+                else {
+                    isOn = false;
+                }
+
+
                 if (isOn) {
                     // switch is on
-
                     //mute audio
-                    AudioManager audioManager=(AudioManager)getContext().getSystemService(Context.AUDIO_SERVICE);
+                    /* audioManager.adjustStreamVolume(AudioManager.STREAM_NOTIFICATION, AudioManager.ADJUST_MUTE, 0);
+                    audioManager.adjustStreamVolume(AudioManager.STREAM_ALARM, AudioManager.ADJUST_MUTE, 0);
+                    audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_MUTE, 0);
+                    audioManager.adjustStreamVolume(AudioManager.STREAM_RING, AudioManager.ADJUST_MUTE, 0);
+                    audioManager.adjustStreamVolume(AudioManager.STREAM_SYSTEM, AudioManager.ADJUST_MUTE, 0); */
+
                     audioManager.setStreamMute(AudioManager.STREAM_NOTIFICATION, true);
-
-                    ///audioManager.setStreamVolume(AudioManager.STREAM_ALARM, 0, AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE)
-
-                    ///MediaPlayer mp = MediaPlayer.create(getContext(), R.raw.sound_win); //Use your mediaplayer instance instead of this. Also maintain a single instance of mediaplayer for the entire app.
-                    ///mp.start();
-                    ///mp.setvolume(0,0);
-
-
+                    audioManager.setStreamMute(AudioManager.STREAM_ALARM, true);
+                    audioManager.setStreamMute(AudioManager.STREAM_MUSIC, true);
+                    audioManager.setStreamMute(AudioManager.STREAM_RING, true);
+                    audioManager.setStreamMute(AudioManager.STREAM_SYSTEM, true);
 
                     Toast toast = Toast.makeText(getActivity(), "Sound OFF", Toast.LENGTH_SHORT);
                     toast.show();
+
+                    switchPreference.setEnabled(false);
                 }
                 else {
                     // switch is off
-
                     //unmute audio
-                    AudioManager audioManager=(AudioManager)getContext().getSystemService(Context.AUDIO_SERVICE);
+                    /* audioManager.adjustStreamVolume(AudioManager.STREAM_NOTIFICATION, AudioManager.ADJUST_UNMUTE, 0);
+                    audioManager.adjustStreamVolume(AudioManager.STREAM_ALARM, AudioManager.ADJUST_UNMUTE, 0);
+                    audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE, 0);
+                    audioManager.adjustStreamVolume(AudioManager.STREAM_RING, AudioManager.ADJUST_UNMUTE, 0);
+                    audioManager.adjustStreamVolume(AudioManager.STREAM_SYSTEM, AudioManager.ADJUST_UNMUTE, 0); */
+
+                    audioManager.setStreamMute(AudioManager.STREAM_NOTIFICATION, false);
+                    audioManager.setStreamMute(AudioManager.STREAM_ALARM, false);
                     audioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
+                    audioManager.setStreamMute(AudioManager.STREAM_RING, false);
+                    audioManager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
 
                     Toast toast = Toast.makeText(getActivity(), "Sound ON", Toast.LENGTH_SHORT);
                     toast.show();
+
+                    switchPreference.setEnabled(true);
                 }
-
-
                 return true;
             }
 

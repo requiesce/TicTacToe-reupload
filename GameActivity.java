@@ -1,5 +1,6 @@
 package com.example.x.tictactoe;
 
+import android.content.DialogInterface;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
@@ -261,9 +262,24 @@ public class GameActivity extends AppCompatActivity {
         AlertDialog alert = winnerAlert.create();
         alert.show();*/
 
-        Toast toast = Toast.makeText(this, "Player " + winner + " wins!", Toast.LENGTH_LONG);
+        /*Toast toast = Toast.makeText(this, "Player " + winner + " wins!", Toast.LENGTH_LONG);
         toast.show();
-        disableButtons();
+        disableButtons();*/
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Player " + winner + " wins!");
+        builder.setCancelable(true);
+        builder.setNegativeButton("End", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which) {
+                dialogInterface.cancel();
+                finish();   // closes activity
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+
 
         /* final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -274,7 +290,7 @@ public class GameActivity extends AppCompatActivity {
             }
         }, 5000); */
 
-       finish();
+
     }
 
     // shows message on draw
