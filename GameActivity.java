@@ -269,11 +269,18 @@ public class GameActivity extends AppCompatActivity {
 
     // shows message on draw
     private void drawMessage() {
-        AlertDialog.Builder drawAlert = new AlertDialog.Builder(this);
-        drawAlert.setMessage("Nobody wins!");
-        AlertDialog alert = drawAlert.create();   // LENGTH_LONG toast
-        alert.show();
-        finish();
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Nobody wins!");
+        builder.setCancelable(true);
+        builder.setNegativeButton("End", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which) {
+                dialogInterface.cancel();
+                finish();   // closes activity
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
     // disables all buttons after game is won
